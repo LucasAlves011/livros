@@ -1,0 +1,40 @@
+.pagina {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   width: 100vw;
+   background-color: #8a8a8a;
+}
+
+#loginSide {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   width: 50vw;
+   background-color: #8a8a8a;
+}
+
+#criarContaSide {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   width: 50vw;
+   background-color: #8a8a8a;
+}
+
+.componentLogin {
+   margin: 20vw;
+}
+
+.inputLogins {
+   height: 30vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
