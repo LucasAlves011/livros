@@ -1,33 +1,31 @@
 import { Button, TextField } from '@mui/material';
 import style from './Login.module.css';
+import { Link } from 'react-router-dom';
+import MyIcon from './reading-image.svg';
 
 function Login() {
    return (
       <>
          <div className={style.login}>
-            <h1>Login</h1>
             <form className={style.pagina}>
-               <div id={style.loginSide}>
-                  <TextField
-                     id="outlined-basic"
-                     label="Usuario"
-                     variant="outlined"
-                     type="email"
-                     required
-                  />
-                  <TextField
-                     id="outlined-basic"
-                     label="Senha"
-                     variant="outlined"
-                     type="password"
-                     required
-                  />
-                  <Button variant="contained" type="submit">Entrar</Button>
-               </div>
-               <div id={style.criarContaSide}>
-                  <h2>Criar Conta</h2>
-                  <Button variant="contained" color="primary">Criar conta</Button>
-               </div>
+               <section id={style.loginSide}>
+                  <h2 style={{ margin: '10px', fontSize: '2.2em' }}>Login</h2>
+                  <div className={style.loginComponents}>
+                     <TextField id="outlined-basic" label="Usuario" variant="standard" type="email" required />
+                     <TextField id="outlined-basic" label="Senha" variant="standard" type="password" required />
+                     <Link to="/esqueci-senha">Esqueci minha senha</Link>
+                     <Button variant="contained" type="submit">Entrar</Button>
+                  </div>
+               </section>
+               <section id={style.criarContaSide}>
+                  <div className={style.criarContaComponents}>
+                     <img src={MyIcon} width='350vw' alt="Imagem de uma pessoa lendo" />
+                     <article>Ainda não tem uma conta?<br />Clique aqui para se cadastrar e começar!</article>
+                     <Link to='/cadastro' style={{ fontSize: '2em', color: 'white', fontWeight: 'bold' }}>
+                        Criar conta
+                     </Link>
+                  </div>
+               </section>
             </form>
          </div>
       </>

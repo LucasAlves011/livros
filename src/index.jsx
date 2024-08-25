@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Login from './pages/login/Login.jsx';
 import Cadastro from './pages/cadastro/Cadastro.jsx';
 import EsqueciSenha from './pages/esqueciSenha/EsqueciSenha.jsx';
+import Recomendacao from './pages/recomendacao/Recomendacao.jsx';
+import Biblioteca from './pages/biblioteca/Biblioteca.jsx';
 
 const router = createBrowserRouter([
   {
@@ -14,18 +16,26 @@ const router = createBrowserRouter([
     errorElement: <div>Not Found</div>,
     children: [
       {
-        path: '/login',
-        element: <Login />
+        path: '/home',
+        element: <Recomendacao />
       },
       {
-        path: '/cadastro',
-        element: <Cadastro />
-      },
-      {
-        path: '/esqueci-senha',
-        element: <EsqueciSenha />
+        path: '/biblioteca',
+        element: <Biblioteca />
       }
     ]
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/cadastro',
+    element: <Cadastro />
+  },
+  {
+    path: '/esqueci-senha',
+    element: <EsqueciSenha />
   }
 ]);
 

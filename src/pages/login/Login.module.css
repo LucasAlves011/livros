@@ -2,29 +2,40 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   height: 100vh;
-   width: 100vw;
    background-color: #8a8a8a;
+   max-height: 10;
 }
+
+.login {
+   max-height: 100vh;
+   overflow: hidden;
+   color: white;
+}
+
+/* Login side */
 
 #loginSide {
    display: flex;
+   align-items: center;
    flex-direction: column;
    justify-content: center;
-   align-items: center;
    height: 100vh;
-   width: 50vw;
-   background-color: #8a8a8a;
+   width: 60vw;
+   background-color: #2461bd;
+   overflow: hidden;
 }
 
-#criarContaSide {
+.loginComponents {
    display: flex;
    flex-direction: column;
-   justify-content: center;
    align-items: center;
-   height: 100vh;
-   width: 50vw;
-   background-color: #8a8a8a;
+   background-color: #ffffff;
+   width: 25vw;
+   height: 35vh;
+   border-radius: 20px;
+
+   overflow: hidden;
+   justify-content: space-around;
 }
 
 .componentLogin {
@@ -37,4 +48,33 @@
    flex-direction: column;
    justify-content: center;
    align-items: center;
+}
+
+/* Criar conta side */
+
+#criarContaSide {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   width: 40vw;
+   background-color: #c95133;
+   overflow: hidden;
+}
+
+.criarContaComponents {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: space-evenly;
+   height: 70vh;
+}
+
+/* Outros */
+
+a {
+   text-decoration: none;
+   font-size: 0.85em;
+   font-weight: 400;
 }
