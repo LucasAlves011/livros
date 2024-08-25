@@ -1,22 +1,32 @@
 import { Button, TextField } from '@mui/material';
 import style from './Login.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MyIcon from './reading-image.svg';
 
 function Login() {
+
+   const navigate = useNavigate();
+
+   const logar = (e) => {
+      {/* Aqui vai colocar a lógica de login */}
+     navigate('/home');
+   }
+
    return (
       <>
          <div className={style.login}>
             <form className={style.pagina}>
+
                <section id={style.loginSide}>
                   <h2 style={{ margin: '10px', fontSize: '2.2em' }}>Login</h2>
                   <div className={style.loginComponents}>
                      <TextField id="outlined-basic" label="Usuario" variant="standard" type="email" required />
                      <TextField id="outlined-basic" label="Senha" variant="standard" type="password" required />
                      <Link to="/esqueci-senha">Esqueci minha senha</Link>
-                     <Button variant="contained" type="submit">Entrar</Button>
+                     <Button variant="contained" type="submit" onClick={() => {logar()}}>Entrar</Button>
                   </div>
                </section>
+
                <section id={style.criarContaSide}>
                   <div className={style.criarContaComponents}>
                      <img src={MyIcon} width='350vw' alt="Imagem de uma pessoa lendo" />
@@ -26,6 +36,7 @@ function Login() {
                      </Link>
                   </div>
                </section>
+               
             </form>
          </div>
       </>
