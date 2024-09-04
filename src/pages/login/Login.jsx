@@ -75,7 +75,7 @@ function Login() {
    return (
       <>
          <Fundo tipo='ESCURO' >
-         <div style={{display: 'flex',  justifyContent: 'center' , alignItems: 'center', height: '100%', margin: 0}}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', margin: 0 }}>
 
                <div id={style.itens}>
 
@@ -88,7 +88,7 @@ function Login() {
 
                         <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} required />
 
-                        <TextField label="Senha" variant="standard" sx={tema.input} id={style.textFields} required />
+                        <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} required />
 
                         <a href="/esqueci-senha">Esqueci minha senha</a>
 
@@ -99,8 +99,8 @@ function Login() {
 
                      </form>
                   </div>
+               </div>
             </div>
-         </div>
          </Fundo>
       </>
    );
