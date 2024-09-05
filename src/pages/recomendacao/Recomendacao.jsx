@@ -1,8 +1,8 @@
 import React from 'react'
 import LivroCard from '../../components/LivroCard'
 import { Stack } from '@mui/material'
-
-
+import Fundo from '../../components/Fundo'
+import style from './Recomendacao.module.css'
 
 const Recomendacao = () => {
 
@@ -22,27 +22,47 @@ const Recomendacao = () => {
     {
       titulo: 'Dom Quixote',
       favorito: false
-    },
-    {
-      titulo: 'As Crônicas de Nárnia',
-      favorito: false
     }
-
   ]
 
   return (
-    <div>
 
-      <h1>Recomendações</h1>
-      <Stack direction="row" gap={4} marginLeft={5} marginTop={2} flexWrap="wrap" marginBottom={6} sx={{ margin: '5vw' }}>
-        {
-          livros.map((livro, index) => {
-            return <LivroCard key={index} titulo={livro.titulo} favorito={livro.favorito} />
-          })
-        }
-      </Stack>
+    <Fundo tipo='CLARO'>
 
-    </div>
+      <div id={style.backgroundLogo}>
+          <div id={style.logo} />
+        </div>
+      <div id={style.container}>
+
+
+
+        <section id={style.recomendacao}>
+          <h2>Recomendações</h2>
+          <Stack direction="row" gap={4} marginLeft={5} marginTop={2} flexWrap="wrap" marginBottom={6} sx={{ margin: '5vw' }}>
+            {
+              livros.map((livro, index) => {
+                return <LivroCard key={index} titulo={livro.titulo} favorito={livro.favorito} />
+              })
+            }
+          </Stack>
+
+        </section >
+
+
+        <section id={style.biblioteca}>
+          <h2>Biblioteca</h2>
+          <Stack direction="row" gap={4} marginLeft={5} marginTop={2} flexWrap="wrap" marginBottom={6} sx={{ margin: '5vw' }}>
+            {
+              livros.map((livro, index) => {
+                return <LivroCard key={index} titulo={livro.titulo} favorito={livro.favorito} />
+              })
+            }
+          </Stack>
+        </section>
+      </div>
+
+
+    </Fundo>
   )
 }
 

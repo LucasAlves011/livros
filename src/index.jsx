@@ -7,7 +7,6 @@ import Login from './pages/login/Login.jsx';
 import Cadastro from './pages/cadastro/Cadastro.jsx';
 import EsqueciSenha from './pages/esqueciSenha/EsqueciSenha.jsx';
 import Recomendacao from './pages/recomendacao/Recomendacao.jsx';
-import Biblioteca from './pages/biblioteca/Biblioteca.jsx';
 
 const router = createBrowserRouter([
   {
@@ -18,10 +17,6 @@ const router = createBrowserRouter([
       {
         path: '/home',
         element: <Recomendacao />
-      },
-      {
-        path: '/biblioteca',
-        element: <Biblioteca />
       }
     ]
   },

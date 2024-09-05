@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Fundo from '../../components/Fundo';
 import { styled } from '@mui/system';
 import { Navigate } from 'react-router-dom';
+import { useState , useEffect} from 'react';
 
 function Login() {
 
@@ -64,13 +65,19 @@ function Login() {
 
    const eventoSubmit = (evento) => {
       evento.preventDefault();
-      // navigate('/home');
+      if (usuario === 'admin' && senha === 'admin') {
+         navigate('/home');
+      } else {
+         alert('Usuário ou senha inválidos');
+      }
    }
 
    const cadastrar = (e) => {
       navigate('/cadastro');
    }
 
+   const [usuario, setUsuario] = useState('');
+   const [senha, setSenha] = useState('');
 
    return (
       <>
@@ -84,17 +91,17 @@ function Login() {
                   <h2>Descubra mundos,<br /> uma página de cada vez.</h2>
 
                   <div id={style.containerForm}>
-                     <form action={(e) => eventoSubmit(e)}>
+                     <form onSubmit={(e) => eventoSubmit(e)}>
 
-                        <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} required />
+                        <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
 
-                        <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} required />
+                        <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields}  onChange={(e) => setSenha(e.target.value)} required />
 
                         <a href="/esqueci-senha">Esqueci minha senha</a>
 
                         <div id={style.botoes}>
                            <Button variant="contained" sx={tema.btn} type="submit">Entrar</Button>
-                           <Button variant="contained" sx={tema.btn} onClick={(e) => cadastrar(e)}>Cadastre-se</Button>
+                           <Button variant="contained" sx={tema.btn} onClick={(e) => cadastrar()}>Cadastre-se</Button>
                         </div>
 
                      </form>
