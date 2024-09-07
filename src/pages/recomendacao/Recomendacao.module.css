@@ -21,7 +21,6 @@
    margin: auto;
    position: relative;
    top: -12vh;
-
 }
 
 
@@ -30,12 +29,17 @@
    flex-direction: column;
    justify-content: center;
    align-items: center;
-   margin-top: 20px;
-   margin-left: 20px;
+   margin-bottom: 0px;
 }
 
-h2 {
+.h2Recomendacao {
    font-size: 2.5em;
    font-weight: 400;
    color: #2a2520;
+   align-self: normal;
+   margin-left: 5%;
+}
+
+.secao {
+   margin: 0px;
 }

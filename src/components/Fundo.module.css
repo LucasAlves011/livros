@@ -1,4 +1,7 @@
-/* Fundo Escuro */
+:root {
+   --espacamento-borda: 98%;
+}
+
 #fundoEscuro {
    display: flex;
    background-image: url('../images/FUNDO_ESCURO.jpeg');
@@ -22,14 +25,16 @@
    background-image: url('../images/FUNDO_CLARO.png');
    background-size: cover;
    background-repeat: no-repeat;
-   height: 200vh;
+   /* height: 200vh; */
    /* width: 100vw; */
    color: #2a2520;
+   padding-top: 15px;
+   padding-bottom: 15px;
 }
 
 #bordaClara {
-   height: 97%;
-   width: 98%;
+   height: var(--espacamento-borda);
+   width: var(--espacamento-borda);
    border: 1px solid #2a2520;
    margin: auto;
 }

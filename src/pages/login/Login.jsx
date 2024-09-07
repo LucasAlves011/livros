@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Fundo from '../../components/Fundo';
 import { styled } from '@mui/system';
 import { Navigate } from 'react-router-dom';
-import { useState , useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 function Login() {
 
@@ -64,12 +64,20 @@ function Login() {
    }
 
    const eventoSubmit = (evento) => {
+      fetch('http://localhost:3001/login', {
+         method: 'GET',
+         headers: {
+            'Content-type': 'application/json'
+         }
+      }).then(response => response.json()).then(data => {
+         console.log(data);
+         if (data.retorno === true) {
+            navigate('/home');
+         } else {
+            alert('Usuário ou senha inválidos');
+         }
+      });
       evento.preventDefault();
-      if (usuario === 'admin' && senha === 'admin') {
-         navigate('/home');
-      } else {
-         alert('Usuário ou senha inválidos');
-      }
    }
 
    const cadastrar = (e) => {
@@ -88,14 +96,14 @@ function Login() {
 
                   <div id={style.logo} />
 
-                  <h2>Descubra mundos,<br /> uma página de cada vez.</h2>
+                  <h2 id={style.h2Login}>Descubra mundos,<br /> uma página de cada vez.</h2>
 
                   <div id={style.containerForm}>
                      <form onSubmit={(e) => eventoSubmit(e)}>
 
                         <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
 
-                        <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields}  onChange={(e) => setSenha(e.target.value)} required />
+                        <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setSenha(e.target.value)} required />
 
                         <a href="/esqueci-senha">Esqueci minha senha</a>
 

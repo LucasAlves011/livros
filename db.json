@@ -1,0 +1,114 @@
+{
+   "usuario": [
+      {
+         "id": 1,
+         "nome": "Juan",
+         "sobrenome": "Perez",
+         "usuario": "juan.perez",
+         "senha": "123456",
+         "email": "lucas.matheus@gmail.com"
+      },
+      {
+         "id": 2,
+         "nome": "Lucas",
+         "sobrenome": "Matheus",
+         "usuario": "lucas.matheus",
+         "senha": "123456",
+         "email": "lucas.matheus@gmail.com"
+      },
+      {
+         "id": 3,
+         "nome": "João",
+         "sobrenome": "Silva",
+         "usuario": "joao.silva",
+         "senha": "123456",
+         "email": "joao.silva@gmail.com"
+      }
+   ],
+   "livros": [
+      {
+         "id": 1,
+         "titulo": "O Senhor dos Anéis",
+         "autor": "J. R. R. Tolkien",
+         "editora": "HarperCollins",
+         "ano": 1954,
+         "genero": "Fantasia",
+         "imagem": "https://picsum.photos/200/300"
+      },
+      {
+         "id": 2,
+         "titulo": "Harry Potter e a Pedra Filosofal",
+         "autor": "J. K. Rowling",
+         "editora": "Rocco",
+         "ano": 1997,
+         "genero": "Fantasia",
+         "imagem": "https://picsum.photos/200/300"
+      },
+      {
+         "id": 3,
+         "titulo": "O Pequeno Príncipe",
+         "autor": "Antoine de Saint-Exupéry",
+         "editora": "Agir",
+         "ano": 1943,
+         "genero": "Infantil",
+         "imagem": "https://picsum.photos/200/300"
+      },
+      {
+         "id": 4,
+         "titulo": "Dom Quixote",
+         "autor": "Miguel de Cervantes",
+         "editora": "Nova Fronteira",
+         "ano": 1605,
+         "genero": "Romance",
+         "imagem": "https://picsum.photos/200/300"
+      },
+      {
+         "id": 5,
+         "titulo": "Cem Anos de Solidão",
+         "autor": "Gabriel García Márquez",
+         "editora": "Record",
+         "ano": 1967,
+         "genero": "Romance",
+         "imagem": "https://picsum.photos/200/300"
+      },
+      {
+         "id": 6,
+         "titulo": "A Menina que Roubava Livros",
+         "autor": "Markus Zusak",
+         "editora": "Intrínseca",
+         "ano": 2005,
+         "genero": "Drama",
+         "imagem": "https://picsum.photos/200/300"
+      },
+      {
+         "id": 7,
+         "titulo": "O Código Da Vinci",
+         "autor": "Dan Brown",
+         "editora": "Arqueiro",
+         "ano": 2003,
+         "genero": "Suspense",
+         "imagem": "https://picsum.photos/200/300"
+      },
+      {
+         "id": 8,
+         "titulo": "O Iluminado",
+         "autor": "Stephen King",
+         "editora": "Suma",
+         "ano": 1977,
+         "genero": "Terror",
+         "imagem": "https://picsum.photos/200/300"
+      },
+      {
+         "id": 9,
+         "titulo": "O Hobbit",
+         "autor": "J. R. R. Tolkien",
+         "editora": "WMF Martins Fontes",
+         "ano": 1937,
+         "genero": "Fantasia",
+         "imagem": "https://picsum.photos/200/300"
+      }
+   ],
+   "login": {
+      "retorno": true
+   }
+}

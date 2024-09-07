@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import style from './Cadastro.module.css'
 import Fundo from '../../components/Fundo';
-import { Autocomplete, Button, TextField } from '@mui/material';
+import { Autocomplete, Button, Stack, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export const Cadastro = () => {
@@ -202,6 +202,15 @@ export const Cadastro = () => {
       },
       '& .MuiInput-underline:after': {
         borderBottomColor: 'white', // Cor quando focado
+      }, '& .MuiChip-label': {
+        color: 'white',
+      }, '& .MuiChip-root': {
+        color: 'white',
+        backgroundColor: 'rgba(195, 179, 144, 0.6)',
+      }, '& .MuiInputBase-formControl': {
+        color: 'white'
+      }, '& .MuiSvgIcon-root': {
+        color: 'white'
       }
     }
   }
@@ -214,36 +223,36 @@ export const Cadastro = () => {
 
           <div id={style.logo} />
 
-          <h2>Descubra mundos,<br /> uma página de cada vez.</h2>
-
           <div id={style.containerForm}>
             <form onSubmit={(e) => eventoSubmit(e)}>
+              <Stack direction="column" spacing={3} sx={tema.input}>
 
-              <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
-              <TextField label="E-mail" type='email' variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
-              <TextField label="Data de Nascimento" type='date' variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
+                <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
+                <TextField label="E-mail" type='email' variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
+                <TextField label="Data de Nascimento" type='date' variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
 
-              <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setSenha(e.target.value)} required />
-              <TextField label="Confirme sua senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setSenha(e.target.value)} required />
+                <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setSenha(e.target.value)} required />
+                <TextField label="Confirme sua senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setSenha(e.target.value)} required />
 
-              <Autocomplete
-                multiple
-                id="tags-outlined"
-                options={top100Films}
-                getOptionLabel={(option) => option.title}
-                filterSelectedOptions
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Livros lidos"
-                    placeholder="Favorites"
-                  />
-                )}
-              />
+                <Autocomplete
+                  sx={tema.input}
+                  multiple
+                  id="tags-standard"
+                  options={top100Films}
+                  getOptionLabel={(option) => option.title}
+                  filterSelectedOptions
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="standard"
+                      label="Livros lidos"
+                    />
+                  )}
+                />
 
+                <Button variant="contained" sx={{ ...tema.btn, marginTop: '20vh', width: '10vw', alignSelf: 'center' }} type="submit">Cadastrar</Button>
 
-              <Button variant="contained" sx={tema.btn} type="submit">Cadastrar</Button>
-
+              </Stack>
             </form>
           </div>
         </div>
