@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const LivroCard = ({ titulo, favorito, imagem, biblioteca = false }) => {
+const LivroCard = ({ titulo, favorito, imagem, biblioteca = false, favoritos }) => {
 
   const [open, setOpen] = useState(false);
 
@@ -54,7 +54,9 @@ const LivroCard = ({ titulo, favorito, imagem, biblioteca = false }) => {
               backgroundColor: 'rgba(0, 0, 0, 0.1)',
             },
           }}
-          onClick={() => setFavoritado(!favoritado)}
+          onClick={() => {
+            setFavoritado(!favoritado)
+          }}
         >
           {favoritado ? <FavoriteBorderIcon sx={{ fontSize: '1.5em' }} /> : <FavoriteIcon sx={{ fontSize: '1.5em', color: '#ff3040' }} />}
         </IconButton>

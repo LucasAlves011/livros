@@ -110,5 +110,9 @@
    ],
    "login": {
       "retorno": true
-   }
+   },
+   "firstTime": {
+      "retorno": true
+   },
+   "generos" : []
 }

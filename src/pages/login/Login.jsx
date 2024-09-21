@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Fundo from '../../components/Fundo';
 import { styled } from '@mui/system';
 import { Navigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+
 
 function Login() {
 
@@ -64,28 +65,55 @@ function Login() {
    }
 
    const eventoSubmit = (evento) => {
-      fetch('http://localhost:3001/login', {
-         method: 'GET',
+      fetch(process.env.REACT_APP_GATEWAY_URL + '/auth/login', {
+         method: 'POST',
          headers: {
             'Content-type': 'application/json'
-         }
-      }).then(response => response.json()).then(data => {
-         console.log(data);
-         if (data.retorno === true) {
-            navigate('/home');
-         } else {
+         },
+         body: JSON.stringify({
+            email: email,
+            password: password
+         })
+      }).then(response => {
+         if (response.status === 200) {
+            return response.json();
+         } else if (response.status === 401) {
             alert('Usuário ou senha inválidos');
+         }
+         else {
+            alert('Erro ao logar');
+         }
+      }).then(data => {
+         if (data) {
+            localStorage.setItem('token', data.accessToken);
+            verificarSeExistePreferenciaCadastrada(email);
          }
       });
       evento.preventDefault();
+   }
+
+   const verificarSeExistePreferenciaCadastrada = (email) => {
+      fetch(process.env.REACT_APP_PEDRO_API + '/get-preference' + email, {
+         method: 'GET',
+         headers: {
+            'Content-type': 'application/json'
+         },
+      }).then(response => {
+         response.json()
+      }).then(data => {
+         if (data)
+            navigate('/home');
+         else
+            navigate('/cadastro/' + email);
+      })
    }
 
    const cadastrar = (e) => {
       navigate('/cadastro');
    }
 
-   const [usuario, setUsuario] = useState('');
-   const [senha, setSenha] = useState('');
+   const [email, setEmail] = useState('');
+   const [password, setpassword] = useState('');
 
    return (
       <>
@@ -101,11 +129,11 @@ function Login() {
                   <div id={style.containerForm}>
                      <form onSubmit={(e) => eventoSubmit(e)}>
 
-                        <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setUsuario(e.target.value)} required />
+                        <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setEmail(e.target.value)} required />
 
-                        <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setSenha(e.target.value)} required />
+                        <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setpassword(e.target.value)} required />
 
-                        <a href="/esqueci-senha">Esqueci minha senha</a>
+                        {/* <a href="/esqueci-password">Esqueci minha password</a> */}
 
                         <div id={style.botoes}>
                            <Button variant="contained" sx={tema.btn} type="submit">Entrar</Button>

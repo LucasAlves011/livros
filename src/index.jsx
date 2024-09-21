@@ -7,11 +7,13 @@ import Login from './pages/login/Login.jsx';
 import Cadastro from './pages/cadastro/Cadastro.jsx';
 import EsqueciSenha from './pages/esqueciSenha/EsqueciSenha.jsx';
 import Recomendacao from './pages/recomendacao/Recomendacao.jsx';
+import CadastroPreferencias from './pages/cadastro/CadastroPreferencias.jsx';
+import Teste from './pages/Teste.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Login />,
     errorElement: <div>Not Found</div>,
   },
   {
@@ -24,18 +26,26 @@ const router = createBrowserRouter([
   },
   {
     path: '/cadastro',
-    element: <Cadastro />
+    element: <Cadastro />,
+  },
+  {
+    path: '/cadastro/:email',
+    element: <CadastroPreferencias />
   },
   {
     path: '/esqueci-senha',
     element: <EsqueciSenha />
+  },
+  {
+    path: '/teste',
+    element: <Teste /> /* FIXME: remover teste */
   }
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+
     <RouterProvider router={router} />
-  </React.StrictMode>
 );
 
