@@ -1,60 +1,65 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import LivroCard from '../../components/LivroCard'
-import { CardMedia, Stack } from '@mui/material'
+import { CardMedia, IconButton, Skeleton, Stack } from '@mui/material'
 import Fundo from '../../components/Fundo'
 import style from './Recomendacao.module.css'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { AuthContext } from '../../context/MyContext'
+import { Navigate } from 'react-router-dom'
 
 const Recomendacao = () => {
 
-  // const [livros, setLivros] = useState(null)
+  const { email, singOut } = useContext(AuthContext)
+
+  const [livros, setLivros] = useState([])
   const [favoritos, setFavoritos] = useState([])
 
   useEffect(() => {
-    // fetch('.app/')
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     setLivros(data)
-    //   })
-  }, [])
+    if (email === null)
+      return
+    fetch(process.env.REACT_APP_PEDRO_API + '/get-favorite/' + email.replaceAll(/"/g, ''), {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log('dataFavoritos')
+      console.log(data)
+      if (data !== null) {
+        setFavoritos(data.livros)
+      }
+    })
+  }, [email])
 
-  //adicionar favorito ao clicar no botao
-  const adicionarFavorito = (livro) => {
-    setFavoritos([...favoritos, livro])
-  }
-
-
-  const livros = [
-    {
-      titulo: 'O Senhor dos Anéis',
-      favorito: true,
-      imagem: 'https://m.media-amazon.com/images/I/71ZLavBjpRL._SY466_.jpg'
-    },
-    {
-      titulo: 'Harry Potter',
-      favorito: false,
-      imagem: 'https://books.google.com.br/books/publisher/content?id=GjgQCwAAQBAJ&hl=pt-BR&pg=PP1&img=1&zoom=3&bul=1&sig=ACfU3U32CKE-XFfMvnbcz1qW0PS46Lg-Ew&w=1280'
-    },
-    {
-      titulo: 'O Pequeno Príncipe',
-      favorito: false,
-      imagem: 'https://m.media-amazon.com/images/I/41GrIdsiEIL._SY445_SX342_.jpg'
-    },
-    {
-      titulo: 'Dom Quixote',
-      favorito: false,
-      imagem: 'https://www.lpm.com.br/livros/Imagens/dom_quixote_hq_9788525433633_g.jpg'
-    },
-    {
-      titulo: 'As Crônicas de Nárnia',
-      favorito: false,
-      imagem: 'https://m.media-amazon.com/images/I/51+2QAB7I+L._SY445_SX342_.jpg'
-    }
-
-  ]
+  useEffect(() => {
+    if (email === null)
+      return
+    fetch(process.env.REACT_APP_PEDRO_API + '/get-recomendation/' + email.replaceAll(/"/g, ''), {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      if (data !== null && data !== undefined) {
+        console.log('data')
+        console.log(data)
+        setLivros(data)
+      }
+    })
+  }, [email])
 
   return (
 
-    <Fundo tipo='CLARO'>
+    <Fundo Fundo tipo='CLARO' >
+      <IconButton style={{ position: 'absolute', right: '20', top: '50' }} onClick={() => {
+        singOut();
+      }} >
+        <ExitToAppIcon />
+      </IconButton>
 
       <div id={style.backgroundLogo}>
         <div id={style.logo} />
@@ -63,32 +68,45 @@ const Recomendacao = () => {
       <div id={style.container}>
 
         <h2 className={style.h2Recomendacao} style={{ marginTop: '-5vh' }}>Recomendações</h2>
-        <section className={style.secao}>
-          {livros !== null && <Stack direction="row" gap={9} marginTop={4} flexWrap="wrap" marginBottom={10} >
+        <section className={style.secao && style.secao}>
+          {livros !== undefined && livros !== null && livros.length > 0 ? <Stack direction="row" gap={9} marginTop={4} flexWrap="wrap" marginBottom={10} >
             {
               livros.map((livro, index) => {
-                return index < 4 && <LivroCard key={index} titulo={livro.titulo} favorito={livro.favorito} imagem={livro.imagem} />
-              })
-            }
-          </Stack>}
+                console.log(livro)
+                return index < 4 && <LivroCard key={livro.id} livro={livro} syncFav={setFavoritos} />
+              })}
+          </Stack> :
+            < Stack direction="row" gap={9} marginTop={4} flexWrap="wrap" marginBottom={10} >
+              <Skeleton variant="rectangular" width={'18vw'} height={'400px'} />
+              <Skeleton variant="rectangular" width={'18vw'} height={'400px'} />
+              <Skeleton variant="rectangular" width={'18vw'} height={'400px'} />
+              <Skeleton variant="rectangular" width={'18vw'} height={'400px'} />
+            </Stack>
+          }
         </section >
 
 
         <h2 className={style.h2Recomendacao}>Biblioteca</h2>
-        <section className={style.secao}>
-          {livros !== null && <Stack direction="row" gap={4} marginTop={4} marginBottom={10} flexWrap="wrap" >
+        <section className={style.secao && style.secao}>
+          {favoritos !== undefined && favoritos.length > 0 ? <Stack direction="row" gap={4} marginTop={4} marginBottom={10} flexWrap="wrap" >
             {
-              livros.map((livro, index) => {
-                return index < 6 && index > 2 && <LivroCard key={index} titulo={livro.titulo} favorito={livro.favorito} imagem={livro.imagem} biblioteca  />
+              favoritos.map((livro, index) => {
+                return <LivroCard key={livro.id} livro={livro} syncFav={setFavoritos} fav />
               })
             }
-          </Stack>}
-        </section>
+          </Stack>
+            :
+            <CardMedia>
+              <div style={{ margin: 'auto', height: '200px', alignContent: 'center' }}>
+                Tá meio vazio por aqui né...
+              </div>
 
+            </CardMedia>}
+        </section>
 
       </div>
 
-    </Fundo>
+    </Fundo >
   )
 }
 

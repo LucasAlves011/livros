@@ -93,7 +93,7 @@ export const Cadastro2 = () => {
       }
     }).catch(error => {
       console.log(error)
-    })
+    })  
 
   }
 

@@ -5,11 +5,14 @@ import Fundo from '../../components/Fundo';
 import { styled } from '@mui/system';
 import { Navigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../context/MyContext';
 
 
 function Login() {
 
    const navigate = useNavigate();
+
+   const { signIn, signed } = useContext(AuthContext);
 
    const tema = {
       btn: {
@@ -64,49 +67,6 @@ function Login() {
       }
    }
 
-   const eventoSubmit = (evento) => {
-      fetch(process.env.REACT_APP_GATEWAY_URL + '/auth/login', {
-         method: 'POST',
-         headers: {
-            'Content-type': 'application/json'
-         },
-         body: JSON.stringify({
-            email: email,
-            password: password
-         })
-      }).then(response => {
-         if (response.status === 200) {
-            return response.json();
-         } else if (response.status === 401) {
-            alert('Usuário ou senha inválidos');
-         }
-         else {
-            alert('Erro ao logar');
-         }
-      }).then(data => {
-         if (data) {
-            localStorage.setItem('token', data.accessToken);
-            verificarSeExistePreferenciaCadastrada(email);
-         }
-      });
-      evento.preventDefault();
-   }
-
-   const verificarSeExistePreferenciaCadastrada = (email) => {
-      fetch(process.env.REACT_APP_PEDRO_API + '/get-preference' + email, {
-         method: 'GET',
-         headers: {
-            'Content-type': 'application/json'
-         },
-      }).then(response => {
-         response.json()
-      }).then(data => {
-         if (data)
-            navigate('/home');
-         else
-            navigate('/cadastro/' + email);
-      })
-   }
 
    const cadastrar = (e) => {
       navigate('/cadastro');
@@ -115,37 +75,73 @@ function Login() {
    const [email, setEmail] = useState('');
    const [password, setpassword] = useState('');
 
-   return (
-      <>
-         <Fundo tipo='ESCURO' >
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', margin: 0 }}>
+   const verificarSeExistePreferenciaCadastrada = async (p_email) => {
 
-               <div id={style.itens}>
+      var a;
+      await fetch(process.env.REACT_APP_PEDRO_API + '/get-preference/' + p_email, {
+         method: 'GET',
+         headers: {
+            'Content-type': 'application/json'
+         },
+      }).then(response => {
+         return response.json()
+      }).then(data => {
+         console.log('data');
+         console.log(data);
+         a = (data === true ? "/home" : ('/cadastro/' + p_email));
+      })
 
-                  <div id={style.logo} />
+      console.log('a');
+      console.log(a);
+      return a;
+   }
 
-                  <h2 id={style.h2Login}>Descubra mundos,<br /> uma página de cada vez.</h2>
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      await signIn(email, password);
+      await verificarSeExistePreferenciaCadastrada(email).then((a) => {
+         navigate(a);
+      });
+   };
 
-                  <div id={style.containerForm}>
-                     <form onSubmit={(e) => eventoSubmit(e)}>
 
-                        <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setEmail(e.target.value)} required />
+   if (!signed) {
+      return (
+         <>
+            <Fundo tipo='ESCURO' >
+               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', margin: 0 }}>
 
-                        <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setpassword(e.target.value)} required />
+                  <div id={style.itens}>
 
-                        {/* <a href="/esqueci-password">Esqueci minha password</a> */}
+                     <div id={style.logo} />
 
-                        <div id={style.botoes}>
-                           <Button variant="contained" sx={tema.btn} type="submit">Entrar</Button>
-                           <Button variant="contained" sx={tema.btn} onClick={(e) => cadastrar()}>Cadastre-se</Button>
-                        </div>
+                     <h2 id={style.h2Login}>Descubra mundos,<br /> uma página de cada vez.</h2>
 
-                     </form>
+                     <div id={style.containerForm}>
+                        <form onSubmit={(e) => handleSubmit(e)}>
+
+                           <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setEmail(e.target.value)} required />
+
+                           <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setpassword(e.target.value)} required />
+
+                           {/* <a href="/esqueci-password">Esqueci minha password</a> */}
+
+                           <div id={style.botoes}>
+                              <Button variant="contained" sx={tema.btn} type="submit">Entrar</Button>
+                              <Button variant="contained" sx={tema.btn} onClick={(e) => cadastrar()}>Cadastre-se</Button>
+                           </div>
+
+                        </form>
+                     </div>
                   </div>
                </div>
-            </div>
-         </Fundo>
-      </>
-   );
+            </Fundo>
+         </>
+      );
+   }
+   else {
+      // return <>Erro estranho</>
+      return <Navigate to="/home" />;
+   }
 }
 export default Login;

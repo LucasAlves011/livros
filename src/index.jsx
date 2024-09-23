@@ -1,14 +1,15 @@
 import React from 'react';
-import './index.css';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-import Login from './pages/login/Login.jsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { AuthProvider } from './context/MyContext.jsx';
+import './index.css';
 import Cadastro from './pages/cadastro/Cadastro.jsx';
-import EsqueciSenha from './pages/esqueciSenha/EsqueciSenha.jsx';
-import Recomendacao from './pages/recomendacao/Recomendacao.jsx';
 import CadastroPreferencias from './pages/cadastro/CadastroPreferencias.jsx';
-import Teste from './pages/Teste.jsx';
+import EsqueciSenha from './pages/esqueciSenha/EsqueciSenha.jsx';
+import Login from './pages/login/Login.jsx';
+import Recomendacao from './pages/recomendacao/Recomendacao.jsx';
+// import Teste from './pages/Teste.jsx';
+import { PrivateRoute } from './PrivateRoute.jsx';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/home',
-    element: <Recomendacao />
+    element: <Recomendacao/>,
   },
   {
     path: '/login',
@@ -36,16 +37,17 @@ const router = createBrowserRouter([
     path: '/esqueci-senha',
     element: <EsqueciSenha />
   },
-  {
-    path: '/teste',
-    element: <Teste /> /* FIXME: remover teste */
-  }
+  // {
+  //   path: '/teste',
+  //   element: <Teste /> /* FIXME: remover teste */
+  // }
 
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-
+  <AuthProvider>
     <RouterProvider router={router} />
+  </AuthProvider>
 );
 

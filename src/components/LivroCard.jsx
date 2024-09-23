@@ -1,11 +1,13 @@
 import { Card, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { AuthContext } from '../context/MyContext';
 
-const LivroCard = ({ titulo, favorito, imagem, biblioteca = false, favoritos }) => {
+const LivroCard = ({ livro, fav, syncFav }) => {
 
   const [open, setOpen] = useState(false);
+  const { email } = useContext(AuthContext)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -15,8 +17,81 @@ const LivroCard = ({ titulo, favorito, imagem, biblioteca = false, favoritos }) 
     setOpen(false);
   };
 
-  const [favoritado, setFavoritado] = useState(false)
+  const [favoritado, setFavoritado] = useState(fav ? true : false)
 
+  const titulo = !fav ? livro.title : livro.nomeLivro
+  const autores = !fav ? livro.authors.reduce((a, b) => (a + ', ' + b)) : livro.authors
+  const imagem = !fav ? (livro.imageLinks !== null ? livro.imageLinks.thumbnail : 'teste') : livro.imagemUrl
+  const id = !fav ? livro.id : livro.idLivro
+  const isbn = livro.isbn
+  const biblioteca = false
+  const resumo = livro.resumo
+  const publishedDate = !fav ? livro.publishedDate && livro.publishedDate.substring(0, 4) : livro.anoLancamento
+
+  const jsonBody = {
+    email: (email !== null && email.replace(/"/g, '')),
+    livros: [
+      {
+        idLivro: id,
+        nomeLivro: titulo,
+        resumo: resumo,
+        anoLancamento: publishedDate,
+        authors: [autores],
+        imagemUrl: imagem
+      }
+    ]
+  }
+
+  const favoritar = async () => {
+    var retorno;
+    await fetch(process.env.REACT_APP_PEDRO_API + '/save-favorite-book', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(jsonBody)
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log('data');
+      console.log(data);
+      retorno = data ? true : false;
+      if (data) {
+        retorno = true;
+        syncFav(data.livros)
+      } else {
+        retorno = false
+      }
+    })
+    return retorno;
+  }
+
+  const removerFavorito = async () => {
+    var retorno;
+    await fetch(process.env.REACT_APP_PEDRO_API + '/remove-book', {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: (email !== null && email.replace(/"/g, '')),
+        idLivro: id
+      })
+    }).then(response => {
+      return response.json()
+    }).then(data => {
+      console.log('data');
+      console.log(data);
+      retorno = data ? true : false;
+      if (data) {
+        retorno = true;
+        syncFav(data.livros ? data.livros : [])
+      } else {
+        retorno = false
+      }
+    })
+    return retorno;
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', fontFamily: 'Montserrat' }}>
@@ -55,10 +130,13 @@ const LivroCard = ({ titulo, favorito, imagem, biblioteca = false, favoritos }) 
             },
           }}
           onClick={() => {
-            setFavoritado(!favoritado)
+            if (!favoritado)
+              favoritar() ? setFavoritado(true) : setFavoritado(false)
+            else
+              removerFavorito() ? setFavoritado(false) : setFavoritado(true)
           }}
         >
-          {favoritado ? <FavoriteBorderIcon sx={{ fontSize: '1.5em' }} /> : <FavoriteIcon sx={{ fontSize: '1.5em', color: '#ff3040' }} />}
+          {!favoritado ? <FavoriteBorderIcon sx={{ fontSize: '1.5em' }} /> : <FavoriteIcon sx={{ fontSize: '1.5em', color: '#ff3040' }} />}
         </IconButton>
 
         <DialogTitle sx={{ margin: 'auto', fontFamily: 'Montserrat' }} variant='h5'>{titulo}</DialogTitle>
@@ -69,12 +147,11 @@ const LivroCard = ({ titulo, favorito, imagem, biblioteca = false, favoritos }) 
             title="teste"
 
           />
-          <Typography variant="body1" sx={{ marginTop: '15px', fontFamily: 'Montserrat' }}><strong style={{ fontFamily: 'Montserrat' }}>Autor:</strong> Nome Author</Typography>
-          <Typography variant="body1" sx={{ fontFamily: 'Montserrat' }}><strong style={{ fontFamily: 'Montserrat' }}>Ano de Lançamento:</strong> 2024</Typography>
+          <Typography variant="body1" sx={{ marginTop: '15px', fontFamily: 'Montserrat' }}><strong style={{ fontFamily: 'Montserrat' }}>Autor:</strong> {autores}</Typography>
+          <Typography variant="body1" sx={{ fontFamily: 'Montserrat' }}><strong style={{ fontFamily: 'Montserrat' }}>Ano de Lançamento:</strong> {publishedDate}</Typography>
           <Typography variant="body1" sx={{ fontFamily: 'Montserrat' }}><strong style={{ fontFamily: 'Montserrat' }}>Gêneros:</strong> Ficção, Aventura</Typography>
           <Typography variant="body1" sx={{ marginTop: '10px', fontFamily: 'Montserrat' }}>
-            <strong style={{ fontFamily: 'Montserrat' }}>Resumo:</strong> Este livro conta a história de um herói em uma jornada épica
-            para salvar o mundo enquanto enfrenta seus próprios demônios e dilemas pessoais.
+            <strong style={{ fontFamily: 'Montserrat' }}>Resumo:</strong> {resumo}
           </Typography>
         </DialogContent>
       </Dialog>
