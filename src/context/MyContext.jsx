@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
         setEmail(p_email);
         localStorage.setItem("@Auth:email", JSON.stringify(p_email));
         localStorage.setItem("@Auth:token", data.accessToken);
-        setExit(true);
+        console.log("entrada errrada");
         < Navigate to={verificarSeExistePreferenciaCadastrada(p_email)} />;
       } else
         alert('Usuário ou senha inválidos');

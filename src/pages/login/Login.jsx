@@ -97,11 +97,30 @@ function Login() {
    }
 
    const handleSubmit = async (e) => {
-      e.preventDefault();
-      await signIn(email, password);
-      await verificarSeExistePreferenciaCadastrada(email).then((a) => {
-         navigate(a);
-      });
+
+      function contemCaracterEspecial(senha) {
+         const regex = /[!@#$%^&*(),.?":{}|<>]/;
+         return regex.test(senha);
+      }
+
+      //faça uma verificação de email e senha
+
+      //verificar se a senha contem um caracter especial
+      const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+
+
+      if (email.length > 5 && password.length > 5 &&  contemCaracterEspecial(password)) {
+         e.preventDefault();
+         await signIn(email, password);
+         if (localStorage.getItem("@Auth:email")) {
+            await verificarSeExistePreferenciaCadastrada(email).then((a) => {
+               navigate(a);
+            });
+         }
+      } else {
+         alert('Usuário ou senha inválidos');
+      }
    };
 
 
@@ -120,7 +139,7 @@ function Login() {
                      <div id={style.containerForm}>
                         <form onSubmit={(e) => handleSubmit(e)}>
 
-                           <TextField label="Usuário" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setEmail(e.target.value)} required />
+                           <TextField label="Email" variant="standard" sx={tema.input} id={style.textFields} onChange={(e) => setEmail(e.target.value)} required />
 
                            <TextField label="Senha" variant="standard" type='password' sx={tema.input} id={style.textFields} onChange={(e) => setpassword(e.target.value)} required />
 
